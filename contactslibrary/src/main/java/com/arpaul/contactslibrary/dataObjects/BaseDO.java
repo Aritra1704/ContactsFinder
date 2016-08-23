@@ -1,4 +1,4 @@
-package com.arpaul.contactsfinder.dataObjects;
+package com.arpaul.contactslibrary.dataObjects;
 
 import java.io.Serializable;
 

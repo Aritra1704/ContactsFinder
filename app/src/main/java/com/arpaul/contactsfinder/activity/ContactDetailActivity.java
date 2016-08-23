@@ -10,13 +10,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.arpaul.contactsfinder.R;
+import com.arpaul.contactslibrary.dataObjects.ContactsDO;
+import com.arpaul.utilitieslib.UnCaughtException;
 
 public class ContactDetailActivity extends AppCompatActivity {
+
+    private ContactsDO objContactsDO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new UnCaughtException(ContactDetailActivity.this,"aritra1704@gmail.com",getString(R.string.app_name)));
         setContentView(R.layout.activity_contact_detail);
+
+        if(getIntent().hasExtra("CONTACT_DETAIL"))
+            objContactsDO = (ContactsDO) getIntent().getExtras().get("CONTACT_DETAIL");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

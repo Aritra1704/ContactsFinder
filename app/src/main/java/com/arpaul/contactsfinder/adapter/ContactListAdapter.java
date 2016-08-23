@@ -10,8 +10,9 @@ import android.widget.TextView;
 
 import com.arpaul.contactsfinder.R;
 import com.arpaul.contactsfinder.activity.ContactDetailActivity;
-import com.arpaul.contactsfinder.dataObjects.ContactsDO;
+import com.arpaul.contactslibrary.dataObjects.ContactsDO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,15 +41,26 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final ContactsDO objCouponDO = arrSpinnerList.get(position);
+        final ContactsDO objContactsDO = arrSpinnerList.get(position);
 
-        holder.tvContactName.setText((String) objCouponDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NAME));
-        holder.tvContactNumber.setText((String) objCouponDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NUMBER));
+        holder.tvContactName.setText((String) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NAME));
+        ArrayList<String> arrContactNumber = (ArrayList<String>) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NUMBER);
+        if(arrContactNumber != null && arrContactNumber.size() > 0)
+            holder.tvContactNumber.setText(arrContactNumber.get(0));
+
+        ArrayList<String> arrContactBday = (ArrayList<String>) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_BDAY);
+        if(arrContactBday != null && arrContactBday.size() > 0)
+            holder.tvContactBDay.setText(arrContactBday.get(0));
+        else {
+            holder.tvContactBDay.setText("");
+            holder.tvContactBDay.setVisibility(View.GONE);
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, ContactDetailActivity.class);
+                intent.putExtra("CONTACT_DETAIL", objContactsDO);
                 context.startActivity(intent);
             }
         });
@@ -66,12 +78,14 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         public final View mView;
         public final TextView tvContactName;
         public final TextView tvContactNumber;
+        public final TextView tvContactBDay;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             tvContactName           = (TextView) view.findViewById(R.id.tvContactName);
             tvContactNumber         = (TextView) view.findViewById(R.id.tvContactNumber);
+            tvContactBDay           = (TextView) view.findViewById(R.id.tvContactBDay);
         }
 
         @Override
