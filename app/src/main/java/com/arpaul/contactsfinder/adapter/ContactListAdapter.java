@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.arpaul.contactsfinder.R;
 import com.arpaul.contactsfinder.activity.ContactDetailActivity;
 import com.arpaul.contactslibrary.dataObjects.ContactsDO;
+import com.arpaul.contactslibrary.dataObjects.PhoneNumberDO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +45,9 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         final ContactsDO objContactsDO = arrSpinnerList.get(position);
 
         holder.tvContactName.setText((String) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NAME));
-        ArrayList<String> arrContactNumber = (ArrayList<String>) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NUMBER);
+        ArrayList<PhoneNumberDO> arrContactNumber = (ArrayList<PhoneNumberDO>) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NUMBER);
         if(arrContactNumber != null && arrContactNumber.size() > 0)
-            holder.tvContactNumber.setText(arrContactNumber.get(0));
+            holder.tvContactNumber.setText((String) arrContactNumber.get(0).getData(PhoneNumberDO.DATA_PHONE.PHONE_NUM));
 
         ArrayList<String> arrContactBday = (ArrayList<String>) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_BDAY);
         if(arrContactBday != null && arrContactBday.size() > 0)

@@ -1,11 +1,9 @@
 package com.arpaul.contactsfinder.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -14,6 +12,7 @@ import com.arpaul.contactsfinder.R;
 import com.arpaul.contactslibrary.dataObjects.AddressDO;
 import com.arpaul.contactslibrary.dataObjects.ContactsDO;
 import com.arpaul.contactslibrary.dataObjects.EmailIdDO;
+import com.arpaul.contactslibrary.dataObjects.PhoneNumberDO;
 import com.arpaul.utilitieslib.UnCaughtException;
 
 import java.util.ArrayList;
@@ -42,10 +41,30 @@ public class ContactDetailActivity extends AppCompatActivity {
     private void bindControls(){
         tvContactName.setText((String) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NAME));
 
-        ArrayList<String> arrContactNumber = (ArrayList<String>) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NUMBER);
+        ArrayList<PhoneNumberDO> arrContactNumber = (ArrayList<PhoneNumberDO>) objContactsDO.getData(ContactsDO.DATA_CONTACT.CONTACT_NUMBER);
         StringBuilder contacts = new StringBuilder();
-        for(String contact : arrContactNumber){
-            contacts.append(contact).append("\n");
+        for(PhoneNumberDO contact : arrContactNumber){
+            switch ((int) contact.getData(PhoneNumberDO.DATA_PHONE.PHONE_TYPE))
+            {
+                case PhoneNumberDO.TYPE_MOBILE:
+                    contacts.append("Mobile:");
+                    break;
+                case PhoneNumberDO.TYPE_HOME:
+                    contacts.append("Home:");
+                    break;
+                case PhoneNumberDO.TYPE_WORK:
+                    contacts.append("Work:");
+                    break;
+                case PhoneNumberDO.TYPE_WORK_MOBILE:
+                    contacts.append("Work Mobile:");
+                    break;
+                case PhoneNumberDO.TYPE_OTHER:
+                    contacts.append("Other:");
+                    break;
+                default:
+                    break;
+            }
+            contacts.append((String) contact.getData(PhoneNumberDO.DATA_PHONE.PHONE_NUM)).append("\n");
         }
         tvContactNumber.setText(contacts.toString());
 
