@@ -180,9 +180,10 @@ public class DeviceContacts {
                                     ContactsContract.CommonDataKinds.Event.START_DATE
                             };
                             String where = ContactsContract.Data.MIMETYPE + "= ? AND " +
+                                    ContactsContract.CommonDataKinds.Event.CONTACT_ID + "= ? AND " +
                                     ContactsContract.CommonDataKinds.Event.TYPE + "=" +
                                     ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY;
-                            String[] selectionArgs = new String[] {ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE};
+                            String[] selectionArgs = new String[] {ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE, id};
                             String sortOrder = null;
                             cursor = context.getContentResolver().query(ContactsContract.Data.CONTENT_URI, projection, where, selectionArgs, sortOrder);
                             int bDayColumn = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Event.START_DATE);
